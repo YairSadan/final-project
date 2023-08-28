@@ -33,7 +33,7 @@ const actions = [
 
 const Header = () => {
   return (
-    <header className="bg-white/70">
+    <header className="bg-white/70 shadow dark:bg-gray-800">
       <nav className="mx-auto flex max-w-9xl items-center justify-between p-6 lg:px-8">
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
           <Popover className="relative">
@@ -76,7 +76,7 @@ const Header = () => {
             </Transition>
           </Popover>
         </Popover.Group>
-        <div className="text-2xl font-bold leading-6 text-gray-900">Sela TalkBack</div>
+        <div className="text-2xl font-bold leading-6 dark:text-gray-100 text-gray-800">Sela TalkBack</div>
         <div className="flex gap-x-3">
           <button>
             <MinusIcon className="h-9 w-9"></MinusIcon>
