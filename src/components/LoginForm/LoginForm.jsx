@@ -1,24 +1,31 @@
 'use client';
-import React, { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import React, { useEffect, useState } from 'react';
+import { signIn, useSession } from 'next-auth/react';
 import WrongDetailsModal from '../WrongDetailsModal/WrongDetailsModal';
-import { Formik } from 'formik';
+import { Formik, useFormikContext } from 'formik';
+import { useRouter } from 'next/navigation';
 const LoginForm = () => {
   const [err, setErr] = useState(false);
-
+  const [obj, setObj] = useState({});
+  const { status } = useSession();
+  const router = useRouter();
   const handleSubmit = async (name, password) => {
-    try {
-      const res = await signIn('credentials', { name, password, redirect: false });
-      if (!res?.error) console.log(res);
-      else setErr(true);
-    } catch (error) {
-      throw new Error();
-    }
+    setObj({name, password})
+    signIn('credentials', { name, password });
   };
+  useEffect(() => {
+    const url = new URL(window.location);
+    const error = url.searchParams.get('error');
+    if (error && status === 'unauthenticated') {
+      setErr(true);
+    }
+    else if (status === 'authenticated') {
+      router.push('/contact')
+    }
+  }, [status]);
 
   return (
     <>
-      <WrongDetailsModal open={err} setOpen={setErr} />
       <Formik
         initialValues={{ name: '', password: '' }}
         validate={(values) => {
@@ -41,7 +48,7 @@ const LoginForm = () => {
         {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
           <div className="w-full max-w-xs ">
             <form
-              className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+              className="bg-white dark:bg-gray-600 shadow-md rounded px-8 pt-6 pb-8 mb-4"
               onSubmit={handleSubmit}
             >
               <div className="mb-4">
@@ -77,6 +84,7 @@ const LoginForm = () => {
                   Sign In
                 </button>
               </div>
+              <WrongDetailsModal open={err} setOpen={setErr} details={obj} />
             </form>
           </div>
         )}

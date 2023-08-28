@@ -3,10 +3,11 @@ import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 
-export default function WrongDetailsModal({ open, setOpen }) {
+export default function WrongDetailsModal({ open, setOpen, details }) {
   const router = useRouter();
   const cancelButtonRef = useRef(null);
   const createUser = async () => {
+    console.log('in here')
     try {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
@@ -14,14 +15,15 @@ export default function WrongDetailsModal({ open, setOpen }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name,
-          password,
+          name: details.name,
+          password: details.password,
         }),
       });
 
-      res.status === 200 && router.push('/login?success=Loged in');
+      res.status === 201 && router.push('/login?success=Loged in');
+      setOpen(false);
     } catch (err) {
-      setErr(true);
+      setOpen(true);
     }
   };
   return (
@@ -78,8 +80,8 @@ export default function WrongDetailsModal({ open, setOpen }) {
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
-                    onClick={() => createUser}
+                    className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                    onClick={() => createUser()}
                   >
                     Create a new user
                   </button>
