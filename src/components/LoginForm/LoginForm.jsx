@@ -1,29 +1,20 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import WrongDetailsModal from '../WrongDetailsModal/WrongDetailsModal';
-import { Formik, useFormikContext } from 'formik';
-import { useRouter } from 'next/navigation';
+import { Formik } from 'formik';
+import { useSearchParams } from 'next/navigation';
 const LoginForm = () => {
   const [err, setErr] = useState(false);
   const [obj, setObj] = useState({});
-  const { status } = useSession();
-  const router = useRouter();
+  const url = useSearchParams();
   const handleSubmit = async (name, password) => {
-    setObj({name, password})
+    setObj({ name, password });
     signIn('credentials', { name, password });
   };
   useEffect(() => {
-    const url = new URL(window.location);
-    const error = url.searchParams.get('error');
-    if (error && status === 'unauthenticated') {
-      setErr(true);
-    }
-    else if (status === 'authenticated') {
-      router.push('/contact')
-    }
-  }, [status]);
-
+    if (url.has('error')) setErr(true);
+  }, [url]);
   return (
     <>
       <Formik

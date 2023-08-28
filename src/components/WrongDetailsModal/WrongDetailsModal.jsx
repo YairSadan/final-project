@@ -7,7 +7,7 @@ export default function WrongDetailsModal({ open, setOpen, details }) {
   const router = useRouter();
   const cancelButtonRef = useRef(null);
   const createUser = async () => {
-    console.log('in here')
+    console.log('in here');
     try {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
@@ -20,7 +20,7 @@ export default function WrongDetailsModal({ open, setOpen, details }) {
         }),
       });
 
-      res.status === 201 && router.push('/login?success=Loged in');
+      res.status === 201 && router.push('/contact?success=Loged in');
       setOpen(false);
     } catch (err) {
       setOpen(true);
