@@ -7,7 +7,7 @@ const OnlineContacts = ({ users, setChosenUser }) => {
   return (
     <ul
       role="list"
-      className="divide-y dark:bg-slate-900 divide-gray-100 dark:divide-gray-700 overflow-scroll px-40 border border-red-600"
+      className="divide-y dark:bg-slate-900 divide-gray-100 dark:divide-gray-700 overflow-scroll px-40"
     >
       {users.map((user) => (
         <li

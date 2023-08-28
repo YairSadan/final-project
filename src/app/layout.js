@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
       >
         <AuthProvider>
           <Header />
-          <main>{children}</main>
+          <main className='overflow-scroll'>{children}</main>
           <Footer />
         </AuthProvider>
       </body>

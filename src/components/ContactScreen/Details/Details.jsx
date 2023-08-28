@@ -10,7 +10,7 @@ const Details = ({ chosenPlayer }) => {
     setUser(session.data?.user);
   }, [session]);
   return (
-    <div className="flex flex-col items-center p-10                                                                                                                                                                                                           border-8 border-red-400">
+    <div className=" flex flex-col items-center p-10">
       <div className="relative inline-block">
         <Image
           className="inline-block h-[3.875rem] w-[3.875rem] rounded-md ring-2 ring-gray-400 dark:ring-gray-800"

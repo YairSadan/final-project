@@ -20,11 +20,11 @@ const Contact = () => {
     fetchUsers();
   }, []);
   return (
-    <div className="flex flex-col justify-between">
+    <>
       <Details chosenPlayer={chosenUser}/>
       <OnlineContacts users={users.filter((user) => user.name === 'yair')} setChosenUser={setChosenUser} />
       <OfflineContacts users={users.filter((user) => user.name !=='yair')} setChosenUser={setChosenUser}/>
-    </div>
+    </>
   );
 };
 
