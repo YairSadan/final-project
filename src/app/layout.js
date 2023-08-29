@@ -14,11 +14,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${inter.className} flex flex-col max-h-screen min-h-screen justify-between`}
+        className={`${inter.className} flex flex-col max-h-screen min-h-screen justify-between flex-auto`}
       >
         <AuthProvider>
           <Header />
-          <main className='overflow-scroll'>{children}</main>
+         <main>{children}</main>
           <Footer />
         </AuthProvider>
       </body>

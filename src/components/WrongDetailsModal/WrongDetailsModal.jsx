@@ -1,13 +1,13 @@
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/dist/server/api-utils';
+import { signIn } from 'next-auth/react';
 
 export default function WrongDetailsModal({ open, setOpen, details }) {
-  const router = useRouter();
   const cancelButtonRef = useRef(null);
   const createUser = async () => {
-    console.log('in here');
+    const { name, password } = details;
     try {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
@@ -15,15 +15,16 @@ export default function WrongDetailsModal({ open, setOpen, details }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: details.name,
-          password: details.password,
+          name,
+          password,
         }),
       });
-
-      res.status === 201 && router.push('/contact?success=Loged in');
-      setOpen(false);
+      if (res.status === 201) {
+        setOpen(false)
+        // TODO add a toast message
+      }
     } catch (err) {
-      setOpen(true);
+      throw new Error(err);
     }
   };
   return (

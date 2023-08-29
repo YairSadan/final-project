@@ -1,22 +1,27 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import WrongDetailsModal from '../WrongDetailsModal/WrongDetailsModal';
 import { Formik } from 'formik';
-import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 const LoginForm = () => {
   const [err, setErr] = useState(false);
   const [obj, setObj] = useState({});
-  const url = useSearchParams();
+  const router = useRouter();
   const handleSubmit = async (name, password) => {
     setObj({ name, password });
-    signIn('credentials', { name, password });
+    try {
+      const res = await signIn('credentials', { name, password, redirect: false });
+      if (res.error) {
+        setErr(true);
+        return;
+      }
+      router.replace('contact');
+    } catch (error) {
+      console.log(error);
+    }
   };
-  useEffect(() => {
-    if (url.has('error')) setErr(true);
-  }, [url]);
   return (
-    <>
       <Formik
         initialValues={{ name: '', password: '' }}
         validate={(values) => {
@@ -37,7 +42,7 @@ const LoginForm = () => {
         }}
       >
         {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-          <div className="w-full max-w-xs ">
+          <div className="flex justify-center">
             <form
               className="bg-white dark:bg-gray-600 shadow-md rounded px-8 pt-6 pb-8 mb-4"
               onSubmit={handleSubmit}
@@ -80,7 +85,6 @@ const LoginForm = () => {
           </div>
         )}
       </Formik>
-    </>
   );
 };
 

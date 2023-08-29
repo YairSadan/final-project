@@ -5,20 +5,29 @@ import bcrypt from 'bcryptjs';
 export const options = {
   providers: [
     CredentialsProvider({
-      id: 'credentials',
-      name: 'Credentials',
+      name: 'credentials',
+      credentials: {},
       async authorize(credentials) {
-        await connect();
-        const user = await User.findOne({ name: credentials.name });
-        if (user) {
-          const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
-          if (isPasswordCorrect) return user;
-          throw new Error('Wrong password');
-        } else throw new Error('User not found');
+        const { name, password } = credentials;
+        try {
+          await connect();
+          const user = await User.findOne({ name });
+          if (!user) return null;
+          const isPasswordCorrect = await bcrypt.compare(password, user.password);
+          if (!isPasswordCorrect) return null;
+          return user;
+        } catch (error) {
+          console.log(error);
+        }
       },
     }),
   ],
+  session: {
+    strategy: 'jwt',
+  },
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    error: '/'
+    signIn: '/',
+    error: '/',
   },
 };

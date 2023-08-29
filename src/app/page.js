@@ -1,9 +1,11 @@
 import Contact from './contact/page';
 import { getServerSession } from 'next-auth';
 import { options } from './api/auth/[...nextauth]/options';
-import Login from './login/page';
+import { redirect } from 'next/dist/server/api-utils';
+import LoginForm from '@/components/LoginForm/LoginForm';
 
 export default async function Home() {
   const session = await getServerSession(options);
-  return <>{session ? <Contact /> : <Login/>}</>;
+  if (session) redirect('/contact');
+  return <LoginForm />;
 }
