@@ -9,6 +9,7 @@ import {
   QuestionMarkCircleIcon,
   BarsArrowDownIcon,
 } from '@heroicons/react/24/outline';
+import { signOut, useSession } from 'next-auth/react';
 
 const actions = [
   {
@@ -32,7 +33,9 @@ const actions = [
 ];
 
 const Header = () => {
+  const {status} = useSession();
   return (
+  
     <header className="bg-white/70 shadow dark:bg-gray-800">
       <nav className="mx-auto flex max-w-9xl items-center justify-between p-6 lg:px-8">
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
@@ -78,6 +81,7 @@ const Header = () => {
         </Popover.Group>
         <div className="text-2xl font-bold leading-6 dark:text-gray-100 text-gray-800">Sela TalkBack</div>
         <div className="flex gap-x-3">
+          {status === 'authenticated' && <button onClick={() => signOut()}>Log out</button>}
           <button>
             <MinusIcon className="h-9 w-9"></MinusIcon>
           </button>
