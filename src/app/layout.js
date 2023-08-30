@@ -2,7 +2,8 @@ import Header from '@/components/Header/Header';
 import './globals.css';
 import { Inter } from 'next/font/google';
 import Footer from '@/components/Footer/Footer';
-import AuthProvider from '@/context/AuthProvider';
+import AuthProvider from '@/Providers/AuthProvider';
+import SafeRouteProvider from '@/Providers/SafeRouteProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
@@ -17,9 +18,9 @@ export default function RootLayout({ children }) {
         className={`${inter.className} flex flex-col max-h-screen min-h-screen justify-between flex-auto`}
       >
         <AuthProvider>
-          <Header />
-         <main>{children}</main>
-          <Footer />
+          <SafeRouteProvider>
+            <main>{children}</main>
+          </SafeRouteProvider>
         </AuthProvider>
       </body>
     </html>

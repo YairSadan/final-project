@@ -10,7 +10,7 @@ const ContactScreen = () => {
     useEffect(() => {
       async function fetchUsers() {
         try {
-          const response = await fetch('/api/users');
+          const response = await fetch('/api/users', {next: {revalidate: 20}});
           const usersData = await response.json();
           setUsers(usersData);
         } catch (error) {
