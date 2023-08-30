@@ -1,5 +1,4 @@
 import ContactScreen from '@/components/ContactScreen/ContactScreen';
-import React from 'react';
 
 const Contact = () => {
 

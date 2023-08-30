@@ -1,4 +1,3 @@
-import React from 'react';
 import Header from './Header/Header';
 import ChatHistory from './ChatHistory/ChatHistory';
 import TextArea from './TextArea/TextArea';

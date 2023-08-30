@@ -1,8 +1,6 @@
 import { Fragment, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import { redirect } from 'next/dist/server/api-utils';
-import { signIn } from 'next-auth/react';
 
 export default function WrongDetailsModal({ open, setOpen, details }) {
   const cancelButtonRef = useRef(null);
