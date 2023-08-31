@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 
 export default function SafeRouteProvider({ children }) {
   const pathname = usePathname();
-  const endsWithChat = /^\/.*\/chat$/.test(pathname);
+  const endsWithChat = /^\/chat/.test(pathname);
   return (
     <>
       {!endsWithChat && <Header />}
