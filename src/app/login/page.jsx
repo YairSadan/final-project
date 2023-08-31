@@ -1,4 +1,4 @@
-import LoginForm from '@/components/LoginForm/LoginForm';
+import LoginForm from '@/components/LoginRegisterScreen/LoginForm/LoginForm';
 import { getServerSession } from 'next-auth';
 import { options } from '../api/auth/[...nextauth]/options';
 import { redirect } from 'next/navigation';

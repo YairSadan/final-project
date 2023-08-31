@@ -1,6 +1,6 @@
 'use client';
-import Footer from '@/components/Footer/Footer';
-import Header from '@/components/Header/Header';
+import Footer from '@/components/Layout/Footer/Footer';
+import Header from '@/components/Layout/Header/Header';
 import { usePathname } from 'next/navigation';
 
 export default function SafeRouteProvider({ children }) {
