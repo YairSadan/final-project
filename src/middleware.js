@@ -1,3 +1,3 @@
 export { default } from 'next-auth/middleware'
 
-export const config = {matcher: ['/contact', '\/([^/]+)\/chat']}
+export const config = {matcher: ['/contact', '/chat\/([^/]+)\/']}
