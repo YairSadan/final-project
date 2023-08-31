@@ -2,7 +2,7 @@ import connect from '@/utils/db';
 import { NextResponse } from 'next/server';
 import User from '@/models/User';
 
-export const GET = async (request) => {
+export const GET = async () => {
   try {
     await connect();
 
