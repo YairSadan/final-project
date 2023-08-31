@@ -7,5 +7,5 @@ export default function Home() {
   const router = useRouter();
   if (status === 'loading') return <p className='text-center'>Loading...</p>;
   if (status === 'authenticated') router.push('/contact');
-  router.push('/login');
+  router.push('/signin');
 }
