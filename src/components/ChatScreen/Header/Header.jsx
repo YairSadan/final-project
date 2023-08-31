@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Header() {
+function Header({username}) {
   return (
-    <div>Header</div>
+    <div>Chat with { username }</div>
   )
 }
 

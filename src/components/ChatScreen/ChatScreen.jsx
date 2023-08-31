@@ -1,13 +1,13 @@
 import Header from './Header/Header';
 import ChatHistory from './ChatHistory/ChatHistory';
-import TextArea from './TextArea/TextArea';
+import MessageComposer from './MessageComposer/MessageComposer';
 
-const ChatScreen = ({user}) => {
+const ChatScreen = ({ user }) => {
   return (
-    <div className='flex flex-col items-center h-screen justify-between'>
+    <div className="flex flex-col items-center h-screen justify-between">
       <Header username={user.name} />
       <ChatHistory />
-      <TextArea />
+      <MessageComposer />
     </div>
   );
 };
