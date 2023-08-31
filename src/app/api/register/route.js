@@ -1,15 +1,17 @@
 import { NextResponse } from 'next/server';
+import prisma from '@/utils/prismadb'
 import bcrypt from 'bcryptjs';
-import connect from '@/utils/db';
-import User from '@/models/User';
 export const POST = async (request) => {
   try {
     const { name, password } = await request.json();
-    console.log(name + password);
-    await connect();
     const hashedPassword = await bcrypt.hash(password, 5);
-    await User.create({ name, password: hashedPassword });
-    return NextResponse.json({ message: 'User has been registered.' }, { status: 201 });
+    const user = await prisma.user.create({
+      data: {
+        name, 
+        hashedPassword
+      }
+    });
+    return NextResponse.json({ message: 'User:  has been registered.' }, { status: 201 }, user);
   } catch (error) {
     console.log(error);
     return NextResponse.json(
