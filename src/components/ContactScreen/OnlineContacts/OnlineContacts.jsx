@@ -13,7 +13,7 @@ const OnlineContacts = ({ users, setChosenUser }) => {
           onClick={() => {
             setChosenUser(user);
           }}
-          key={user.name}
+          key={user.username}
           className="flex hover:bg-gray-700 justify-between gap-x-6 p-5"
         >
           <div className="flex min-w-0 gap-x-4">
@@ -24,7 +24,7 @@ const OnlineContacts = ({ users, setChosenUser }) => {
             />
             <div className="min-w-0 flex-auto">
               <p className="text-sm font-semibold leading-6 dark:text-gray-100 text-gray-900">
-                {user.name}
+                {user.username}
               </p>
               <p className="mt-1 truncate text-xs leading-5 dark:text-gray-200 text-gray-500">
                 {user.email}

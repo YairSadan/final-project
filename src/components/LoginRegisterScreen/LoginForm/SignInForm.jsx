@@ -1,6 +1,6 @@
 'use client';
 import { signIn } from 'next-auth/react';
-import { redirect } from 'next/dist/server/api-utils';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 const SignInForm = () => {
@@ -9,14 +9,14 @@ const SignInForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const router = useRouter();
   const onSubmit = async ({ email, password }) => {
     try {
       ('use server');
       console.log(email);
       const res = await signIn('credentials', { email, password, redirect: false });
       if (res.error) console.log('TODO')
-      redirect('/contact');
+      router.replace('/contact');
     } catch (error) {
       console.log('error logging in');
     }
@@ -25,7 +25,7 @@ const SignInForm = () => {
   return (
     <div className="flex justify-center items-center ">
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-96">
-        <h1 className="text-2xl font-semibold mb-4 dark:text-white">Register</h1>
+        <h1 className="text-2xl font-semibold mb-4 dark:text-white">Sign in</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-600">Email</label>
@@ -56,7 +56,7 @@ const SignInForm = () => {
           </div>
 
           <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md">
-            Register
+            Sign in
           </button>
         </form>
         <div className="mt-4 text-center dark:text-gray-300">

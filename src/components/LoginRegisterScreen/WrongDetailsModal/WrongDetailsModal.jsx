@@ -5,7 +5,7 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 export default function WrongDetailsModal({ open, setOpen, details }) {
   const cancelButtonRef = useRef(null);
   const createUser = async () => {
-    const { name, password } = details;
+    const { username, password } = details;
     try {
       const res = await fetch('/api/register', {
         method: 'POST',
@@ -13,7 +13,7 @@ export default function WrongDetailsModal({ open, setOpen, details }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name,
+          username,
           password,
         }),
       });

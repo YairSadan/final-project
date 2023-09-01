@@ -1,4 +1,6 @@
 'use client';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 const SignUpForm = () => {
@@ -7,9 +9,16 @@ const SignUpForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const router = useRouter();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+    const res = await axios.post('/api/signup', data);
+    if (res.status === '201') console.log(res.status)
+    router.replace('/signin')
+  } catch (error) {
+console.log(error)    
+  }
   };
 
   return (

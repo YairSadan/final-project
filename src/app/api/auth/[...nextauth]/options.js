@@ -1,4 +1,3 @@
-import connect from '@/utils/db';
 import prisma from '@/utils/prismadb';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
@@ -8,15 +7,16 @@ export const options = {
       name: 'credentials',
       credentials: {},
       async authorize(credentials) {
+        console.log(credentials)
         try {
-          await connect();
           const user = await prisma.user.findUnique({
             where: {
-              name: credentials.name,
+              email: credentials.email,
             },
           });
+          console.log(user)
           if (!user) return null;
-          const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
+          const isPasswordCorrect = await bcrypt.compare(credentials.password, user.hashedPassword);
           if (!isPasswordCorrect) return null;
           return user;
         } catch (error) {
@@ -29,9 +29,5 @@ export const options = {
     strategy: 'jwt',
   },
   secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: '/',
-    error: '/',
-  },
   debug: process.env.NODE_ENV === 'development',
 };

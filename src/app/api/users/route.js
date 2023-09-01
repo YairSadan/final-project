@@ -1,12 +1,10 @@
-import connect from '@/utils/db';
 import { NextResponse } from 'next/server';
-import User from '@/models/User';
+import prisma from '@/utils/prismadb'
 
 export const GET = async () => {
   try {
-    await connect();
 
-    const users = await User.find();
+    const users = await prisma.User.findMany();
 
     return new NextResponse(JSON.stringify(users), { status: 200 });
   } catch (err) {
