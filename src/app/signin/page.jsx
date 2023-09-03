@@ -1,10 +1,9 @@
-import { getServerSession } from 'next-auth';
-import { options } from '../api/auth/[...nextauth]/options';
 import { redirect } from 'next/navigation';
 import SignInForm from '@/components/LoginRegisterScreen/LoginForm/SignInForm';
+import getSession from '@/actions/getSession';
 
 const Login = async () => {
-  const session = await getServerSession(options);
+  const session = await getSession();
   if (session) redirect('/contact');
   return <SignInForm />;
 };

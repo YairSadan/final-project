@@ -1,10 +1,6 @@
-import ContactScreen from '@/components/ContactScreen/ContactScreen';
 
 const Contact = () => {
-
-  return (
-   <ContactScreen/>
-  );
+  return <></>;
 };
 
 export default Contact;

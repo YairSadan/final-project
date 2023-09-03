@@ -1,37 +1,14 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import Details from './Details/Details';
-import OnlineContacts from './OnlineContacts/OnlineContacts';
-import OfflineContacts from './OfflineContacts/OfflineContacts';
+'use client'
+import { useState } from "react";
+import ContactsList from "./ContactsList/ContactsList";
+import Details from "./Details/Details";
 
-const ContactScreen = () => {
-  const [users, setUsers] = useState([]);
-  const [chosenUser, setChosenUser] = useState('');
-  useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const response = await fetch('/api/users', { next: { revalidate: 20 } });
-        const usersData = await response.json();
-        setUsers(usersData);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchUsers();
-  }, []);
+const ContactScreen = ({ currentUser, users }) => {
+  const [chosenPlayer, setChosenPlayer] = useState({})
   return (
     <>
-      <Details chosenPlayer={chosenUser} />
-      <div className='h-96 overflow-scroll'>
-        <OnlineContacts
-          users={users.filter((user) => user.lastSeen.toLocaleString() === Date.now().toLocaleString())}
-          setChosenUser={setChosenUser}
-        />
-        <OfflineContacts
-          users={users.filter((user) => user.lastSeen.toLocaleString() !== Date.now().toLocaleString())}
-          setChosenUser={setChosenUser}
-        />
-      </div>
+      <Details currentUser={currentUser} chosenPlayer={ chosenPlayer} />
+      <ContactsList users={users} setChosenPlayer={setChosenPlayer} />
     </>
   );
 };

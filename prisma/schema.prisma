@@ -17,7 +17,7 @@ model User {
   image          String?
   hashedPassword String?
   lastSeen       DateTime? @default(now())
-  isOnline       Boolean?
+  isOnline       Boolean?  @default(false)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
