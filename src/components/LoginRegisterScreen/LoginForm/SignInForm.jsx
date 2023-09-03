@@ -13,7 +13,6 @@ const SignInForm = () => {
   const onSubmit = async ({ email, password }) => {
     try {
       ('use server');
-      console.log(email);
       const res = await signIn('credentials', { email, password, redirect: false });
       if (res.error) console.log('TODO')
       router.replace('/contact');

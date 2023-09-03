@@ -7,14 +7,12 @@ export const options = {
       name: 'credentials',
       credentials: {},
       async authorize(credentials) {
-        console.log(credentials)
         try {
           const user = await prisma.user.findUnique({
             where: {
               email: credentials.email,
             },
           });
-          console.log(user)
           if (!user) return null;
           const isPasswordCorrect = await bcrypt.compare(credentials.password, user.hashedPassword);
           if (!isPasswordCorrect) return null;
