@@ -1,9 +1,8 @@
-import { getSession } from 'next-auth/react';
 import prisma from '@/utils/prismadb';
+import getSession from './getSession';
 const getCurrentUser = async () => {
   try {
     const session = await getSession();
-
     if (!session?.user?.email) return null;
     const currentUser = await prisma.user.findUnique({
       where: {
