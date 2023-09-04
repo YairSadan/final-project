@@ -1,4 +1,4 @@
-import prisma from '@/utils/prismadb';
+import prisma from '@/lib/prismadb';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 export const options = {

@@ -7,13 +7,10 @@ import { useRouter } from 'next/navigation';
 const Details = ({ currentUser, chosenPlayer }) => {
   const router = useRouter();
   const handleClick = useCallback(() => {
-    axios.post('/api/chat', { userId: chosenPlayer.id }).then(
-      (data) => {
-        router.push(`/chat/${data.data.id}`);
-      },
-      [chosenPlayer, router]
-    );
-  });
+    axios.post('/api/conversations', { userId: chosenPlayer.id }).then((data) => {
+      router.push(`/chat/${data.data.id}`);
+    });
+  }, [chosenPlayer, router]);
   return (
     <div className=" flex flex-col items-center p-10">
       <div className="relative inline-block">

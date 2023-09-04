@@ -1,9 +1,9 @@
-import prisma from '@/utils/prismadb';
+import prisma from '@/lib/prismadb';
 import getCurrentUser from './getCurrentUser';
 
 const getConversationById = async (conversationId) => {
   try {
-      const currentUser = await getCurrentUser();
+    const currentUser = await getCurrentUser();
     if (!currentUser?.email) return null;
     const conversation = await prisma.conversation.findUnique({
       where: {
