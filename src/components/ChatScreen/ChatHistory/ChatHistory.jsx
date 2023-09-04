@@ -1,6 +1,6 @@
 'use client';
 
-import useConversation from '@/app/hooks/useConversation';
+import useConversation from '@/hooks/useConversation';
 import { useEffect, useRef, useState } from 'react';
 import MessageBox from './MessageBox/MessageBox';
 import { pusherClient } from '@/lib/pusher';
