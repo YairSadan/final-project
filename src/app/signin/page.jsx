@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import SignInForm from '@/components/LoginRegisterScreen/LoginForm/SignInForm';
+import SignInForm from '@/components/LoginRegisterScreen/SignInForm';
 import getSession from '@/actions/getSession';
 
 const Login = async () => {
