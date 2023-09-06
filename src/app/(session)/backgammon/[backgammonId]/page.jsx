@@ -1,9 +1,8 @@
-import React from 'react'
+import Background from '@/components/BackgammonScreen/Background/Background';
+import React from 'react';
 
 const Backgammon = () => {
-  return (
-    <div>Backgammon</div>
-  )
-}
+  return <Background/>
+};
 
-export default Backgammon
+export default Backgammon;

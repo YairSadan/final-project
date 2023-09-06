@@ -5,12 +5,12 @@ import { usePathname } from 'next/navigation';
 
 export default function SafeRouteProvider({ children }) {
   const pathname = usePathname();
-  const endsWithChat = /^\/chat/.test(pathname);
+  const nonLayoutPage = /^\/chat/.test(pathname) || /^\/backgammon/.test(pathname)
   return (
     <>
-      {!endsWithChat && <Header />}
+      {!nonLayoutPage && <Header />}
       {children}
-      {!endsWithChat && <Footer />}
+      {!nonLayoutPage && <Footer />}
     </>
   );
 }
