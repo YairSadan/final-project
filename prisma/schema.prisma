@@ -24,6 +24,9 @@ model User {
   conversationIds String[]       @map("conversationsIds") @db.ObjectId
   conversations   Conversation[] @relation(fields: [conversationIds], references: [id])
 
+  gameIds         String[]       @map("gamesIds") @db.ObjectId
+  games           Game[]         @relation(fields: [gameIds], references: [id])
+
   seenMessageIds String[]  @db.ObjectId
   seenMessages   Message[] @relation("Seen", fields: [seenMessageIds], references: [id])
 
@@ -84,43 +87,28 @@ model Game {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   winner        String?
-  status GameState?
   isOver        Boolean
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   isMultiplayer Boolean
 
   boardState Board?
   moves      Move[]
 
-  players Player[]
+  userIds String[] @db.ObjectId
+  users   User[]   @relation(fields: [userIds], references: [id])
 }
 
-enum GameState {
-  IN_PROGRESS
-  PAUSED
-  COMPLETED
-}
-
-model Player {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  username String
-  color    PlayerColor
-  isAi     Boolean
-
-  game   Game   @relation(fields: [gameId], references: [id])
-  gameId String @db.ObjectId
-}
 enum PlayerColor {
   WHITE
   BLACK
 }
 
 model Board {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  points Int[]
-  bar    Int[]
-  off    Int[]
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  points         Int[]
+  bar            Int[]
+  off            Int[]
   capturedPieces Int[]
 
   game   Game   @relation(fields: [gameId], references: [id])
