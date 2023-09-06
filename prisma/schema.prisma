@@ -79,3 +79,72 @@ model Message {
   senderId String @db.ObjectId
   sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
 }
+
+model Game {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  winner        String?
+  status GameState?
+  isOver        Boolean
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  isMultiplayer Boolean
+
+  boardState Board?
+  moves      Move[]
+
+  players Player[]
+}
+
+enum GameState {
+  IN_PROGRESS
+  PAUSED
+  COMPLETED
+}
+
+model Player {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  username String
+  color    PlayerColor
+  isAi     Boolean
+
+  game   Game   @relation(fields: [gameId], references: [id])
+  gameId String @db.ObjectId
+}
+enum PlayerColor {
+  WHITE
+  BLACK
+}
+
+model Board {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  points Int[]
+  bar    Int[]
+  off    Int[]
+  capturedPieces Int[]
+
+  game   Game   @relation(fields: [gameId], references: [id])
+  gameId String @unique @db.ObjectId
+}
+
+model Move {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  playerId  String
+  fromPoint Int
+  toPoint   Int
+  isCapture Boolean
+
+  game   Game   @relation(fields: [gameId], references: [id])
+  gameId String @db.ObjectId
+
+  diceRoll   DiceRoll @relation(fields: [diceRollId], references: [id])
+  diceRollId String   @db.ObjectId
+}
+
+model DiceRoll {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  dice1 Int
+  dice2 Int
+
+  move Move[]
+}
