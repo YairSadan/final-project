@@ -1,25 +1,30 @@
+'use client';
 import BackgammonDice from './BackgammonDice';
 import BackgammonDiceRollButton from './BackgammonDiceRollButton';
 import BackgammonTriangle from './BackgammonTriangle';
 
 export default class BackgammonBoard {
-  constructor(c) {
+  constructor(c, boardState) {
     this.c = c;
     this.boardWidth = window.innerWidth;
     this.boardHeight = window.innerHeight;
-    this.triangles = Array.from(
-      { length: 24 },
-      (_, i) => new BackgammonTriangle(this.c, i, this.boardWidth, this.boardHeight)
+    this.triangles = boardState.triangles.map(
+      (triangle) => new BackgammonTriangle(this.c, this.boardWidth, this.boardHeight, triangle)
     );
     this.diceButton = new BackgammonDiceRollButton(this.c, this.boardWidth, this.boardHeight);
     this.dice = Array.from(
       { length: 4 },
       (_, i) => new BackgammonDice(this.c, this.boardWidth, this.boardHeight, i + 1)
     );
+    this.draw();
   }
   draw() {
     for (const triangle of this.triangles) {
+      
       triangle.draw();
+      for (const piece of triangle.pieces) {
+        piece.draw();
+      }
     }
     this.diceButton.draw();
     const rectangleStart = this.boardWidth / 2 - this.boardWidth / 24;
