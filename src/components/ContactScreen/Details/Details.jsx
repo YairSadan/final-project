@@ -4,18 +4,31 @@ import avatarSvg from '../../../../public/avatar.svg';
 import { useCallback } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { pusherClient } from '@/lib/pusher';
 const Details = ({ currentUser, chosenPlayer }) => {
   const router = useRouter();
+
   const handleMessageClick = useCallback(() => {
     axios.post('/api/conversations', { userId: chosenPlayer.id }).then((data) => {
       router.push(`/chat/${data.data.id}`);
     });
   }, [chosenPlayer, router]);
-  const handleGameClick = useCallback(() => {
-    axios.post('/api/games', { userId: chosenPlayer.id }).then((data) => {
-      router.push(`/backgammon/${data.data.id}`);
+
+  const handleGameResponse = (accepted, gameRoomId) => {
+    if (accepted) router.push('/backgammon/' + gameRoomId);
+    else console.error('failed to trigger game-response event');
+  };
+
+  const handleGameClick = async () => {
+    const response = await axios.post('/api/games', { otherUserId: chosenPlayer.id });
+    const gameRoomId = response.data;
+    console.log(gameRoomId);
+    pusherClient.subscribe(gameRoomId);
+    pusherClient.bind('game-response', ({accepted}) => {
+      handleGameResponse(accepted, gameRoomId);
     });
-  }, [chosenPlayer, router]);
+  };
+
   return (
     <div className=" flex flex-col items-center p-10">
       <div className="relative inline-block">
