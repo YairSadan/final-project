@@ -1,15 +1,30 @@
 import prisma from '@/lib/prismadb';
 import getCurrentUser from './getCurrentUser';
 
-const getGameById = async (gameId) => {
+const getGameById = async (gameRoomId) => {
   try {
     const currentUser = await getCurrentUser();
     if (!currentUser?.email) return null;
     const game = await prisma.game.findUnique({
       where: {
-        id: gameId,
+        id: gameRoomId,
       },
-      include: { users: true },
+      include: {
+        boardState: {
+          include: {
+            triangles: {
+              select: {
+                number: true,
+                pieces: {
+                  select: {
+                    color: true,
+                  },
+                },
+              }
+            }
+          },
+        },
+      },
     });
     return game;
   } catch (error) {

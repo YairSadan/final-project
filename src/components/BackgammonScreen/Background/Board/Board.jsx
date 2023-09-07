@@ -1,20 +1,27 @@
-import { BackgammonManager } from '@/classes/BackgammonManager';
+'use client'
+import BackgammonBoard from '@/classes/BackgammonBoard';
 import { useEffect, useRef } from 'react';
 
-const Board = () => {
+const Board = ({boardState}) => {
   const canvasRef = useRef(null);
+  const managerRef = useRef(null);
   useEffect(() => {
-    const context = canvasRef.current.getContext('2d');
-    const manager = new BackgammonManager(context);
-    const handleClick = (e) => manager.handleClick(e);
-    canvasRef.current.addEventListener('click',(e) =>  handleClick(e));
+    const current = canvasRef.current;
+    const context = current.getContext('2d');
+    context.canvas.width = window.innerWidth
+    context.canvas.height = window.innerHeight
+    if (!managerRef.current) managerRef.current = new BackgammonBoard(context, boardState);
+    else managerRef.current.updateGameData(boardState);
+
+    const handleClick = (e) => managerRef.current.handleClick(e);
+    current.addEventListener('click', (e) => handleClick(e));
     return () => {
-      canvasRef.current.removeEventListener('click', handleClick);
+      current.removeEventListener('click', handleClick);
     };
-  }, []);
+  }, [boardState]);
   return (
-    <div>
-      <canvas ref={canvasRef} width={window.innerWidth} height={window.innerHeight} />
+    <div className='h-screen w-screen'>
+      <canvas ref={canvasRef} />
     </div>
   );
 };
