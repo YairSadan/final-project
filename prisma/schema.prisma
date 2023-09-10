@@ -77,7 +77,7 @@ model Game {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   isMultiplayer Boolean
-  turn          String?   @db.ObjectId
+  turn          String?  @db.ObjectId
   boardState    Board?
   userIds       String[] @db.ObjectId
   users         User[]   @relation(fields: [userIds], references: [id])
@@ -107,21 +107,26 @@ model Bar {
 model Triangle {
   id      String  @id @default(auto()) @map("_id") @db.ObjectId
   pieces  Piece[]
-  number Int
+  number  Int
   board   Board   @relation(fields: [boardId], references: [id])
   boardId String  @db.ObjectId
 }
 
 model Piece {
-  id         String      @id @default(auto()) @map("_id") @db.ObjectId
-  color      PlayerColor
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  color      pieceColor
   state      pieceState
-  triangle   Triangle?   @relation(fields: [triangleId], references: [id])
-  triangleId String?      @db.ObjectId
-  bar        Bar?         @relation(fields: [barId], references: [id])
-  barId      String?      @db.ObjectId
-  Board      Board?      @relation(fields: [boardId], references: [id])
-  boardId    String?     @db.ObjectId
+  triangle   Triangle?  @relation(fields: [triangleId], references: [id])
+  triangleId String?    @db.ObjectId
+  bar        Bar?       @relation(fields: [barId], references: [id])
+  barId      String?    @db.ObjectId
+  Board      Board?     @relation(fields: [boardId], references: [id])
+  boardId    String?    @db.ObjectId
+}
+
+enum pieceColor {
+  WHITE
+  BLACK
 }
 
 enum pieceState {
